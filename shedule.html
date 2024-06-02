@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Posts</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+        }
+
+    
+       
+        .date-button {
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .window-icon img{
+            height: 16px;
+            width: 16px;
+            margin: 6px;
+            margin-top: 11px;
+            margin-left: 14px;
+            cursor: pointer;
+           
+        }
+      .view-icon{
+        display: flex;
+            height: 38px;
+            width: 100px;
+            margin: 1px;
+            margin-bottom: 2px;
+            margin-right: 2px;
+            border-radius: 30px;
+            border: none;
+            background-color: #ffffff;
+            cursor: pointer;
+}
+
+.view-icon img{
+    height: 10px;
+            width: 10px;
+            margin: 6px;
+            margin-top: 11px;
+            margin-left: 14px;
+}
+
+.platform img{
+height: 20px;
+width: 20px;
+margin: 10px;
+cursor: pointer;
+}
+
+.listicon{
+    margin: 9px;
+    font-weight: bold;
+}
+        .username {
+            font-weight: bold;
+            margin-left: 10px;
+            margin: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+    
+        }
+        .Scheduled-and-date{
+            width: 210px;
+            
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+        }
+
+        .post-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-content img {
+            max-width: 100px;
+            margin-right: 10px;
+            border-radius: 9px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons button {
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-buttons button.edit {
+            background-color: #4caf50;
+        }
+
+        .action-buttons button.delete {
+            background-color: #f44336;
+        }
+
+        .calendar-popup {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            top: 100px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .timeAM{
+            margin-top: 3px;
+            font-size: 12px;
+            color: rgb(116, 112, 112);
+            font-weight: bold;
+        }
+        
+        .containerofheader{
+            display: flex;
+            height: 40px;
+            width: 124px;
+            background-color: #f4e4de;
+            border-radius: 30px;
+            margin-right: 10px;
+        }
+        
+.user-info{
+    display: flex;
+            height: 40px;
+            width: 200px;
+            background-color: #f4e4de;
+            border-radius: 30px;
+}
+
+
+
+.chalendar{
+            display: flex;
+            height: 40px;
+            width: 100px;
+            background-color: #f4e4de;
+            border-radius: 30px;
+
+}
+
+
+        @media (max-width: 768px) {
+            th, td {
+                display: block;
+                width: 100%;
+            }
+
+            th {
+                background-color: #fff;
+                position: relative;
+                padding-left: 50%;
+                text-align: left;
+            }
+
+            th::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            td {
+                padding-left: 50%;
+                text-align: left;
+                position: relative;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                font-weight: bold;
+            }
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Scheduled Posts</h1>
+            <div class="header-controls">
+                <div class="containerofheader">
+                    <div class="window-icon "><img  src="https://cdn-icons-png.freepik.com/512/58/58477.png" alt=""></div>
+                    <button class="view-icon"><div><img src="https://cdn-icons-png.flaticon.com/256/3810/3810964.png" alt=""></div><div class="listicon">List</div></button>
+                </div>
+               
+                <div class="user-info">
+                    <span class="platform"><img src="https://assets.website-files.com/619b1ff3f9011a3fc0bd1f0b/6302d010b0ee913819037edb_LinkedIn_icon_circle.png" alt=""></span>
+                    <span class="username">lewishamilton</span>
+                    <span class="username" >-</span>
+                </div>
+               <div class="chalendar">
+
+                <span class="username">Today</span>
+               </div>
+               
+            </div>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <th class="Scheduled-and-date">Scheduled Date & Time</th>
+                    <th>Post Content</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="posts-table-body">
+                <tr>
+                    <td>18 Feb 2024 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGVco0po8rGlwDCfYO96Bu_Hol9DyTsl_u5w&s" alt="Post Image">
+                            <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free.</span>
+                               </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>31 Jan 2024 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                              <img src="https://t4.ftcdn.net/jpg/06/00/90/17/360_F_600901739_93i8HBQhHjqXyvNBrHWEiJOveQYdMe6m.jpg" alt="Post Image">
+                       
+                              <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free.</span>
+                            </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>17 Jan 2024 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                              <img src="https://t4.ftcdn.net/jpg/05/55/71/83/360_F_555718315_XAi4cgO4s2uBRshlJZ8wXjAWkptX8023.jpg" alt="Post Image">
+                              <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free.</span>
+                         
+                            </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>29 Dec 2023 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                            <img src="https://t4.ftcdn.net/jpg/05/55/71/83/360_F_555718315_XAi4cgO4s2uBRshlJZ8wXjAWkptX8023.jpg" alt="Post Image">
+                            <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free.</span>
+                           
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>12 Dec 2023 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP3Gcb_RziGP2Df7edAS3-1rMGic1dYvaZgw&s" alt="Post Image">
+                            <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free. <a href="https://linkdin.com">https://linkdin.com</a></span>
+                          
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>04 Dec 2023 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                             <img src="https://t4.ftcdn.net/jpg/05/55/71/83/360_F_555718315_XAi4cgO4s2uBRshlJZ8wXjAWkptX8023.jpg" alt="Post Image">
+                             <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free.</span>
+                          
+                            </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>30 Nov 2023 <div class="timeAM"> 08:00 AM</div></td>
+                    <td>
+                        <div class="post-content">
+                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP3Gcb_RziGP2Df7edAS3-1rMGic1dYvaZgw&s" alt="Post Image">
+                             <span>Get started quickly with templates and customize them as you grow. Try Jira Software for free.</span>
+                         
+                            </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="calendar-popup" class="calendar-popup">
+        <input type="date" id="calendar">
+    </div>
+    <script >
+        document.addEventListener('DOMContentLoaded', function() {
+    const dateButton = document.querySelector('.date-button');
+    const calendarPopup = document.getElementById('calendar-popup');
+
+    dateButton.addEventListener('click', function() {
+        calendarPopup.style.display = calendarPopup.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!dateButton.contains(event.target) && !calendarPopup.contains(event.target)) {
+            calendarPopup.style.display = 'none';
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
